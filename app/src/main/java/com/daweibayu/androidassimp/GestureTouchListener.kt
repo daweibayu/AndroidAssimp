@@ -16,18 +16,25 @@ class GestureTouchListener(val context: Context): View.OnTouchListener {
 
     private val gestureDetector = GestureDetectorCompat(context, object : SimpleOnGestureListener() {
         override fun onDoubleTap(e: MotionEvent): Boolean {
-            onDoubleTabNative()
+            // 双指点击，放大固定倍数
+            onScaleNative(2f)
             return true
         }
 
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+            // 单指滑动，旋转物体
             onScrollNative(distanceX, distanceY, e2.x, e2.y);
             return true
+        }
+
+        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+            return super.onFling(e1, e2, velocityX, velocityY)
         }
     })
 
     private val scaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
+            // 双指放缩
             onScaleNative(detector.scaleFactor)
             return true
         }
@@ -36,11 +43,10 @@ class GestureTouchListener(val context: Context): View.OnTouchListener {
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         event?.let {
-            if (gestureDetector.onTouchEvent(event) || scaleGestureDetector.onTouchEvent(event)) {
-                return true
-            }
+            scaleGestureDetector.onTouchEvent(event)
+            gestureDetector.onTouchEvent(event)
         }
-        return false
+        return true
     }
 }
 

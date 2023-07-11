@@ -51,9 +51,8 @@ void ModelInteraction::initShaderLoader() {
 void ModelInteraction::initAssimpLoader() {
     assimpLoader = new AssimpLoader();
     std::vector<std::string> imageList;
-    imageList.emplace_back("models/moon_map.jpg");
-    imageList.emplace_back("models/moon_normal.jpg");
-    assimpLoader->loadObj("models/moon.obj", "models/moon.mtl", imageList);
+    imageList.emplace_back("models/Globe.jpg");
+    assimpLoader->loadObj("models/Globe.obj", "models/Globe.mtl", imageList);
 }
 
 /**
@@ -74,13 +73,12 @@ void ModelInteraction::render() {
  * set the viewport, function is also called when user changes device orientation
  */
 void ModelInteraction::setViewPort(int width, int height) {
-
-    screenHeight = height;
-    screenWidth = width;
+    screenHeight = (float)height;
+    screenWidth = (float)width;
     glViewport(0, 0, width, height);
 //    CheckGLError("Cube::SetViewport");
 
-    myGLCamera->SetAspectRatio((float) width / height);
+    myGLCamera->SetAspectRatio(screenWidth/ screenHeight);
 }
 
 //void initGl() {
@@ -152,7 +150,13 @@ void ModelInteraction::onDoubleTab() {
  * rotate the model if user scrolls with one finger
  */
 void ModelInteraction::onScroll(float distanceX, float distanceY, float positionX, float positionY) {
-    myGLCamera->RotateModel(distanceX, distanceY, positionX, positionY);
+    float dX = (float) distanceX / screenWidth;
+    float dY = -(float) distanceY / screenHeight;
+    float posX = 2*positionX/ screenWidth - 1.;
+    float posY = -2*positionY / screenHeight + 1.;
+    posX = fmax(-1., fmin(1., posX));
+    posY = fmax(-1., fmin(1., posY));
+    myGLCamera->RotateModel(dX, dY, posX, posY);
 }
 
 /**

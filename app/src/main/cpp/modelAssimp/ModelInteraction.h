@@ -23,12 +23,9 @@ public:
     void    onScroll(float distanceX, float distanceY, float positionX, float positionY);
     void    onScale(float scaleFactor);
     void    onMove(float distanceX, float distanceY);
-    int     getScreenWidth() const { return screenWidth; }
-    int     getScreenHeight() const { return screenHeight; }
 
 private:
-    bool    initsDone;
-    int     screenWidth, screenHeight;
+    float  screenWidth, screenHeight;
 
     std::vector<float> modelDefaultPosition;
 
