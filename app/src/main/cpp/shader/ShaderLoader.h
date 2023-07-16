@@ -23,7 +23,7 @@ private:
     GLint   mvpLocation, textureSamplerLocation;    // location of MVP in the shader
 
     void initShader();
-    void readerMesh(const MeshInfo& mashInfo);
+    void renderMash(const MeshInfo& mashInfo);
 };
 
 #endif //ANDROIDASSIMP_SHADERLOADER_H

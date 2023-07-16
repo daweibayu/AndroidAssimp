@@ -22,7 +22,7 @@ void ShaderLoader::initShader() {
     textureSamplerLocation  = getUniformLocation(shaderProgramID, "textureSampler");
 }
 
-void ShaderLoader::readerMesh(const MeshInfo& mashInfo) {
+void ShaderLoader::renderMash(const MeshInfo& mashInfo) {
     // Texture
     if (mashInfo.textureIndex) {
         glBindTexture( GL_TEXTURE_2D, mashInfo.textureIndex);
@@ -59,6 +59,6 @@ void ShaderLoader::renderObj(glm::mat4 *mvpMat, const std::vector<struct MeshInf
     glUniform1i(textureSamplerLocation, 0);
 
     for(auto meshInfo : modelMeshes) {
-        readerMesh(meshInfo);
+        renderMash(meshInfo);
     }
 }
