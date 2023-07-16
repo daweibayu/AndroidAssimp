@@ -23,19 +23,25 @@ std::vector<struct MeshInfo>& AssimpLoader::getModelMeshes() {
     return modelMeshes;
 }
 
-void AssimpLoader::loadObj(const std::string& objPath, const std::string& mtlPath, std::vector<std::string>& imagesPath) {
+void AssimpLoader::loadFiles(const std::string& objPath, const std::string& mtlPath, std::vector<std::string>& imagesPath) {
 
     std::string objFullPath, mtlFullPath, imageFullPath;
     copyAssetFileToStorage(objPath, androidStoragePath, objFullPath);
     copyAssetFileToStorage(mtlPath, androidStoragePath, mtlFullPath);
-    for (auto imagePath : imagesPath) {
+    for (const auto& imagePath : imagesPath) {
         copyAssetFileToStorage(imagePath, androidStoragePath, imageFullPath);
     }
 
+    loadObj(objFullPath);
+    loadTexturesToGL(parseFileDir(imageFullPath));
+    generateGLBuffers();
+}
+
+void AssimpLoader::loadObj(const std::string &objPath) {
     importer = new Assimp::Importer();
 
     LOG_D("Importer ReadFile before *********");
-    scene = importer->ReadFile(objFullPath,aiProcessPreset_TargetRealtime_Quality);
+    scene = importer->ReadFile(objPath, aiProcessPreset_TargetRealtime_Quality);
     if (nullptr == scene) {
         string errorMessage = importer->GetErrorString();
         LOG_D("Importer ReadFile failed %s *********", errorMessage.c_str());
@@ -43,10 +49,6 @@ void AssimpLoader::loadObj(const std::string& objPath, const std::string& mtlPat
         LOG_D("Importer ReadFile succeed *********");
         std::string resultStr = std::to_string(1);
     }
-
-    LoadTexturesToGL(parseFileDir(imageFullPath));
-    GenerateGLBuffers();
-    LOG_D("Importer ReadFile end %d *********", scene->mNumMaterials);
 }
 
 void parseMashInfoFromScene(const aiMesh* mesh, MeshInfo& mashInfo) {
@@ -126,7 +128,7 @@ void parseTexture(aiMaterial *mtl, std::map<std::string, GLuint>& textureMap, Me
     }
 }
 
-void AssimpLoader::GenerateGLBuffers() {
+void AssimpLoader::generateGLBuffers() {
     struct MeshInfo newMeshInfo; // this struct is updated for each mesh in the model
     // For every mesh -- load face indices, vertex positions, vertex texture coords
     // also copy texture index for mesh into newMeshInfo.textureIndex
@@ -139,7 +141,7 @@ void AssimpLoader::GenerateGLBuffers() {
     }
 }
 
-bool AssimpLoader::LoadTexturesToGL(const std::string& imagePath) {
+bool AssimpLoader::loadTexturesToGL(const std::string& imagePath) {
 
     // read names of textures associated with all materials
     textureNameMap.clear();

@@ -26,6 +26,7 @@ ModelInteraction::~ModelInteraction() {
 }
 
 void ModelInteraction::init() {
+    initGl();
     initShaderLoader();
     initCamera();
     initAssimpLoader();
@@ -41,7 +42,7 @@ void ModelInteraction::initCamera() {
     myGLCamera = new MyGLCamera();
     float pos[]={0.,0.,0.,0.2,0.5,0.};
     std::copy(&pos[0], &pos[5], std::back_inserter(modelDefaultPosition));
-    myGLCamera->SetModelPosition(modelDefaultPosition);
+    myGLCamera->setModelPosition(modelDefaultPosition);
 }
 
 void ModelInteraction::initShaderLoader() {
@@ -51,8 +52,8 @@ void ModelInteraction::initShaderLoader() {
 void ModelInteraction::initAssimpLoader() {
     assimpLoader = new AssimpLoader();
     std::vector<std::string> imageList;
-    imageList.emplace_back("models/Globe.jpg");
-    assimpLoader->loadObj("models/Globe.obj", "models/Globe.mtl", imageList);
+    imageList.emplace_back("models/earth1.jpg");
+    assimpLoader->loadFiles("models/earth1.obj", "models/earth1.mtl", imageList);
 }
 
 /**
@@ -62,11 +63,8 @@ void ModelInteraction::render() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::mat4 mvpMat = myGLCamera->GetMVP();
+    glm::mat4 mvpMat = myGLCamera->getMVP();
     shaderLoader->renderObj(&mvpMat, assimpLoader->getModelMeshes());
-
-//    CheckGLError("ModelAssimp::Render");
-
 }
 
 /**
@@ -78,7 +76,7 @@ void ModelInteraction::setViewPort(int width, int height) {
     glViewport(0, 0, width, height);
 //    CheckGLError("Cube::SetViewport");
 
-    myGLCamera->SetAspectRatio(screenWidth/ screenHeight);
+    myGLCamera->setAspectRatio(screenWidth/ screenHeight);
 }
 
 //void initGl() {
@@ -143,7 +141,7 @@ void ModelInteraction::setViewPort(int width, int height) {
  * reset model's position in double-tap
  */
 void ModelInteraction::onDoubleTab() {
-    myGLCamera->SetModelPosition(modelDefaultPosition);
+    myGLCamera->setModelPosition(modelDefaultPosition);
 }
 
 /**
@@ -156,19 +154,19 @@ void ModelInteraction::onScroll(float distanceX, float distanceY, float position
     float posY = -2*positionY / screenHeight + 1.;
     posX = fmax(-1., fmin(1., posX));
     posY = fmax(-1., fmin(1., posY));
-    myGLCamera->RotateModel(dX, dY, posX, posY);
+    myGLCamera->rotateModel(dX, dY, posX, posY);
 }
 
 /**
  * pinch-zoom: move the model closer or farther away
  */
 void ModelInteraction::onScale(float scaleFactor) {
-    myGLCamera->ScaleModel(scaleFactor);
+    myGLCamera->scaleModel(scaleFactor);
 }
 
 /**
  * two-finger drag: displace the model by changing its x-y coordinates
  */
 void ModelInteraction::onMove(float distanceX, float distanceY) {
-    myGLCamera->TranslateModel(distanceX, distanceY);
+    myGLCamera->translateModel(distanceX, distanceY);
 }

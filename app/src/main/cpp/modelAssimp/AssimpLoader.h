@@ -30,12 +30,13 @@ struct MeshInfo {
 class AssimpLoader {
 
 public:
-    void loadObj(const std::string& objPath, const std::string& mtlPath, std::vector<std::string>& imagesPath);
+    void loadFiles(const std::string& objPath, const std::string& mtlPath, std::vector<std::string>& imagesPath);
     std::vector<struct MeshInfo>& getModelMeshes();
 
 private:
-    void GenerateGLBuffers();
-    bool LoadTexturesToGL(const std::string& modelFilename);
+    void loadObj(const std::string& objPath);
+    void generateGLBuffers();
+    bool loadTexturesToGL(const std::string& modelFilename);
 
     Assimp::Importer* importer;
     const aiScene* scene;                           // assimp's output data structure

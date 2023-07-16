@@ -5,6 +5,7 @@
 #include <vector>
 #include "ShaderLoader.h"
 #include "../modelAssimp/AssimpLoader.h"
+#include "../utils/ShaderUtils.h"
 
 
 ShaderLoader::ShaderLoader() {
@@ -14,11 +15,11 @@ ShaderLoader::ShaderLoader() {
 void ShaderLoader::initShader() {
     std::string vertexShader    = "shaders/shader.vs";
     std::string fragmentShader  = "shaders/shader.fs";
-    shaderProgramID         = LoadShaders(vertexShader, fragmentShader);
-    vertexAttribute         = GetAttributeLocation(shaderProgramID, "vertexPosition");
-    vertexUVAttribute       = GetAttributeLocation(shaderProgramID, "vertexUV");
-    mvpLocation             = GetUniformLocation(shaderProgramID, "mvpMat");
-    textureSamplerLocation  = GetUniformLocation(shaderProgramID, "textureSampler");
+    shaderProgramID         = loadShaders(vertexShader, fragmentShader);
+    vertexAttribute         = getAttributeLocation(shaderProgramID, "vertexPosition");
+    vertexUVAttribute       = getAttributeLocation(shaderProgramID, "vertexUV");
+    mvpLocation             = getUniformLocation(shaderProgramID, "mvpMat");
+    textureSamplerLocation  = getUniformLocation(shaderProgramID, "textureSampler");
 }
 
 void ShaderLoader::readerMesh(const MeshInfo& mashInfo) {

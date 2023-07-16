@@ -11,11 +11,6 @@
 #include "../modelAssimp/AssimpLoader.h"
 
 
-GLuint loadShader(const std::string& shaderAssetFile, const GLenum shaderType);
-GLuint LoadShaders(const std::string& vertexShaderCode, const std::string& fragmentShaderCode);
-GLuint GetAttributeLocation(GLuint programID, const std::string& variableName);
-GLint GetUniformLocation(GLuint programID, const std::string& uniformName);
-
 class ShaderLoader {
 
 public:

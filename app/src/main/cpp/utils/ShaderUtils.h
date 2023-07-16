@@ -10,8 +10,11 @@
 #include "../modelAssimp/AssimpLoader.h"
 
 GLuint loadShader(const std::string& shaderAssetFile, const GLenum shaderType);
-GLuint LoadShaders(const std::string& vertexShaderCode, const std::string& fragmentShaderCode);
-GLuint GetAttributeLocation(GLuint programID, const std::string& variableName);
-GLint GetUniformLocation(GLuint programID, const std::string& uniformName);
+
+GLuint loadShaders(const std::string& vertexShaderCode, const std::string& fragmentShaderCode);
+
+GLuint getAttributeLocation(GLuint programID, const std::string& variableName);
+
+GLint getUniformLocation(GLuint programID, const std::string& uniformName);
 
 #endif //ANDROIDASSIMP_SHADERUTILS_H

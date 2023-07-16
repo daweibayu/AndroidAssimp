@@ -42,15 +42,15 @@ public:
             float nearPlaneDistance = 1.0f, // as large as possible
             float farPlaneDistance = 2000.0f // as small as possible
     );
-    void        SetModelPosition(std::vector<float> modelPosition);
-    void        SetAspectRatio(float aspect);
-    glm::mat4   GetMVP(){ return mvpMat; }
-    void        RotateModel(float distanceX, float distanceY, float endPositionX, float endPositionY);
-    void        ScaleModel(float scaleFactor);
-    void        TranslateModel(float distanceX, float distanceY);
+    void        setModelPosition(std::vector<float> modelPosition);
+    void        setAspectRatio(float aspect);
+    glm::mat4   getMVP(){ return mvpMat; }
+    void        rotateModel(float distanceX, float distanceY, float endPositionX, float endPositionY);
+    void        scaleModel(float scaleFactor);
+    void        translateModel(float distanceX, float distanceY);
 
 private:
-    void        ComputeMVPMatrix();
+    void        computeMVPMatrix();
 
     float       FOV;
     float       nearPlaneDistance, farPlaneDistance;

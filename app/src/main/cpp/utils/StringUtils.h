@@ -9,6 +9,9 @@
 #include <unistd.h>
 #include <jni.h>
 
+
 std::string jStringToString(JNIEnv *env, jstring& jStr);
+
 void strSplit(const std::string& s, std::vector<std::string>& tokens, const std::string& delimiters = " ");
+
 #endif //ANDROIDASSIMP_STRINGUTILS_H

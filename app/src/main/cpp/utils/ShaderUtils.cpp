@@ -9,10 +9,10 @@ inline std::string readShaderCode(const std::string& shaderFileName) {
     return readAssetFile(shaderFileName);
 }
 
-bool CompileShader(GLuint & shaderID, const GLenum shaderType, std::string shaderCode) {
+bool compileShader(GLuint& shaderID, const GLenum shaderType, const std::string& shaderCode) {
     shaderID = glCreateShader(shaderType);
     char const * sourcePointer = shaderCode.c_str();
-    glShaderSource(shaderID, 1, &sourcePointer, NULL);
+    glShaderSource(shaderID, 1, &sourcePointer, nullptr);
     glCompileShader(shaderID);
 
     GLint result = GL_FALSE;
@@ -22,19 +22,14 @@ bool CompileShader(GLuint & shaderID, const GLenum shaderType, std::string shade
     glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
     if (result == 0) {
         std::vector<char> shaderErrorMessage(infoLogLength + 1);
-        glGetShaderInfoLog(shaderID, infoLogLength, NULL, &shaderErrorMessage[0]);
+        glGetShaderInfoLog(shaderID, infoLogLength, nullptr, &shaderErrorMessage[0]);
         return false;
     }
-    else{
-    }
-
     return true;
 }
 
-/**
- * Link the vertex and fragment shaders together
- */
-bool LinkProgram(GLuint programID, GLuint vertexShaderID, GLuint fragmentShaderID) {
+
+bool linkProgram(GLuint programID, GLuint vertexShaderID, GLuint fragmentShaderID) {
     GLint result = GL_FALSE;
     int infoLogLength;
 
@@ -56,7 +51,7 @@ bool LinkProgram(GLuint programID, GLuint vertexShaderID, GLuint fragmentShaderI
 
     if (result == 0) {
         std::vector<char> programErrorMessage(infoLogLength + 1);
-        glGetProgramInfoLog(programID, infoLogLength, NULL,
+        glGetProgramInfoLog(programID, infoLogLength, nullptr,
                             &programErrorMessage[0]);
         if (programID) {
             glDeleteProgram(programID);
@@ -66,14 +61,12 @@ bool LinkProgram(GLuint programID, GLuint vertexShaderID, GLuint fragmentShaderI
     return true;
 }
 
-/**
- * Read the vertex & fragment shaders, compile and link them, return the program ID
- */
-GLuint LoadShaders(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename) {
+
+GLuint loadShaders(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename) {
     GLuint programID = glCreateProgram();
     GLuint vertexShaderID = loadShader(vertexShaderFilename, GL_VERTEX_SHADER);
     GLuint fragmentShaderID = loadShader(fragmentShaderFilename, GL_FRAGMENT_SHADER);
-    if (!LinkProgram(programID, vertexShaderID, fragmentShaderID)) {
+    if (!linkProgram(programID, vertexShaderID, fragmentShaderID)) {
         return 0;
     }
 
@@ -83,11 +76,11 @@ GLuint LoadShaders(const std::string& vertexShaderFilename, const std::string& f
 GLuint loadShader(const std::string& shaderAssetFile, const GLenum shaderType) {
     GLuint shaderId;
     std::string shaderCode = readShaderCode(shaderAssetFile);
-    CompileShader(shaderId, shaderType, shaderCode);
+    compileShader(shaderId, shaderType, shaderCode);
     return shaderId;
 }
 
-GLuint GetAttributeLocation(GLuint programID, const std::string& variableName) {
+GLuint getAttributeLocation(GLuint programID, const std::string& variableName) {
     GLint loc = glGetAttribLocation(programID, variableName.c_str());
     if (loc == -1) {
         return (0);
@@ -96,7 +89,7 @@ GLuint GetAttributeLocation(GLuint programID, const std::string& variableName) {
     }
 }
 
-GLint GetUniformLocation(GLuint programID, const std::string& uniformName) {
+GLint getUniformLocation(GLuint programID, const std::string& uniformName) {
     GLint loc = glGetUniformLocation(programID, uniformName.c_str());
     if (loc == -1) {
         return (0);
