@@ -6,7 +6,7 @@ import android.content.res.AssetManager
 class AssimpNativeInitTask {
 
     fun loadNativeLib() {
-        System.loadLibrary("androidassimp")
+        System.loadLibrary("AndroidAssimp")
     }
 
     fun initNativeEnv(context: Application) {
