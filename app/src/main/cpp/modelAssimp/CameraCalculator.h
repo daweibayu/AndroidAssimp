@@ -1,22 +1,9 @@
-/*
- *    Copyright 2016 Anand Muralidhar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
+//
+// Created by daweibayu on 2023/7/17.
+//
 
-
-#ifndef GLCAMERA_H
-#define GLCAMERA_H
+#ifndef ANDROIDASSIMP_CAMERACALCULATOR_H
+#define ANDROIDASSIMP_CAMERACALCULATOR_H
 
 #include <vector>
 #include <stdio.h>
@@ -29,14 +16,13 @@
 
 
 
-// sensitivity coefficients for translating gestures to model's movements
 #define SCALE_TO_Z_TRANSLATION  20
 #define TRANSLATION_TO_ANGLE    5
 #define XY_TRANSLATION_FACTOR   10
 
-class MyGLCamera {
+class CameraCalculator {
 public:
-    MyGLCamera(
+    CameraCalculator(
             float FOV = 45,          // in degrees
             float zPosition = 10,    // camera's location on Z axis
             float nearPlaneDistance = 1.0f, // as large as possible
@@ -66,4 +52,5 @@ private:
     float       deltaX, deltaY, deltaZ;
 };
 
-#endif //GLCAMERA_H
+
+#endif //ANDROIDASSIMP_CAMERACALCULATOR_H

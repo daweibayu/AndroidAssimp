@@ -14,8 +14,8 @@
  * Class constructor
  */
 ModelInteraction::~ModelInteraction() {
-    if (myGLCamera) {
-        delete myGLCamera;
+    if (cameraCalculator) {
+        delete cameraCalculator;
     }
     if (assimpLoader) {
         delete assimpLoader;
@@ -39,10 +39,10 @@ void ModelInteraction::initGl() {
 }
 
 void ModelInteraction::initCamera() {
-    myGLCamera = new MyGLCamera();
+    cameraCalculator = new CameraCalculator();
     float pos[]={0.,0.,0.,0.2,0.5,0.};
     std::copy(&pos[0], &pos[5], std::back_inserter(modelDefaultPosition));
-    myGLCamera->setModelPosition(modelDefaultPosition);
+    cameraCalculator->setModelPosition(modelDefaultPosition);
 }
 
 void ModelInteraction::initShaderLoader() {
@@ -63,7 +63,7 @@ void ModelInteraction::render() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::mat4 mvpMat = myGLCamera->getMVP();
+    glm::mat4 mvpMat = cameraCalculator->getMVP();
     shaderLoader->renderObj(&mvpMat, assimpLoader->getModelMeshes());
 }
 
@@ -76,7 +76,7 @@ void ModelInteraction::setViewPort(int width, int height) {
     glViewport(0, 0, width, height);
 //    CheckGLError("Cube::SetViewport");
 
-    myGLCamera->setAspectRatio(screenWidth/ screenHeight);
+    cameraCalculator->setAspectRatio(screenWidth/ screenHeight);
 }
 
 //void initGl() {
@@ -141,7 +141,7 @@ void ModelInteraction::setViewPort(int width, int height) {
  * reset model's position in double-tap
  */
 void ModelInteraction::onDoubleTab() {
-    myGLCamera->setModelPosition(modelDefaultPosition);
+    cameraCalculator->setModelPosition(modelDefaultPosition);
 }
 
 /**
@@ -154,19 +154,19 @@ void ModelInteraction::onScroll(float distanceX, float distanceY, float position
     float posY = -2*positionY / screenHeight + 1.;
     posX = fmax(-1., fmin(1., posX));
     posY = fmax(-1., fmin(1., posY));
-    myGLCamera->rotateModel(dX, dY, posX, posY);
+    cameraCalculator->rotateModel(dX, dY, posX, posY);
 }
 
 /**
  * pinch-zoom: move the model closer or farther away
  */
 void ModelInteraction::onScale(float scaleFactor) {
-    myGLCamera->scaleModel(scaleFactor);
+    cameraCalculator->scaleModel(scaleFactor);
 }
 
 /**
  * two-finger drag: displace the model by changing its x-y coordinates
  */
 void ModelInteraction::onMove(float distanceX, float distanceY) {
-    myGLCamera->translateModel(distanceX, distanceY);
+    cameraCalculator->translateModel(distanceX, distanceY);
 }

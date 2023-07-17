@@ -6,9 +6,9 @@
 #define ANDROIDASSIMP_MODELINTERACTION_H
 
 #include "AssimpLoader.h"
-#include "myGLCamera.h"
 #include "AssimpLoader.h"
 #include "../shader/ShaderLoader.h"
+#include "CameraCalculator.h"
 #include <vector>
 
 class ModelInteraction {
@@ -29,7 +29,7 @@ private:
 
     std::vector<float> modelDefaultPosition;
 
-    MyGLCamera* myGLCamera;
+    CameraCalculator* cameraCalculator;
     AssimpLoader* assimpLoader;
     ShaderLoader* shaderLoader;
 
