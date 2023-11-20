@@ -21,13 +21,13 @@ class GestureTouchListener(val context: Context): View.OnTouchListener {
             return true
         }
 
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             // 单指滑动，旋转物体
             onScrollNative(distanceX, distanceY, e2.x, e2.y);
             return true
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             return super.onFling(e1, e2, velocityX, velocityY)
         }
     })

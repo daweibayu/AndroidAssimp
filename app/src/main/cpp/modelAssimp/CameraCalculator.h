@@ -24,9 +24,9 @@ class CameraCalculator {
 public:
     CameraCalculator(
             float FOV = 45,          // in degrees
-            float zPosition = 10,    // camera's location on Z axis
+            float zPosition = 2500,    // camera's location on Z axis
             float nearPlaneDistance = 1.0f, // as large as possible
-            float farPlaneDistance = 2000.0f // as small as possible
+            float farPlaneDistance = 5000.0f // as small as possible
     );
     void        setModelPosition(std::vector<float> modelPosition);
     void        setAspectRatio(float aspect);
